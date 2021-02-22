@@ -1,0 +1,817 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-module-flags: -target arm64-apple-ios9.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name IterableSDK
+import CoreData
+import Foundation
+@_exported import IterableSDK
+import Network
+import Swift
+import UIKit
+import UserNotifications
+import WebKit
+import os
+@objc public protocol IterableInboxViewControllerViewDelegate : AnyObject {
+  @objc init()
+  @objc optional var filter: (IterableSDK.IterableInAppMessage) -> Swift.Bool { get }
+  @objc optional var comparator: (IterableSDK.IterableInAppMessage, IterableSDK.IterableInAppMessage) -> Swift.Bool { get }
+  @objc optional var messageToSectionMapper: (IterableSDK.IterableInAppMessage) -> Swift.Int { get }
+  @objc optional var dateMapper: (IterableSDK.IterableInAppMessage) -> Swift.String? { get }
+  @objc optional var customNibNames: [Swift.String] { get }
+  @objc optional var customNibNameMapper: (IterableSDK.IterableInAppMessage) -> Swift.String? { get }
+  @objc optional func renderAdditionalFields(forCell cell: IterableSDK.IterableInboxCell, withMessage message: IterableSDK.IterableInAppMessage)
+}
+@objc @_inheritsConvenienceInitializers @IBDesignable open class IterableInboxViewController : UIKit.UITableViewController {
+  public enum InboxMode {
+    case popup
+    case nav
+    public static func == (a: IterableSDK.IterableInboxViewController.InboxMode, b: IterableSDK.IterableInboxViewController.InboxMode) -> Swift.Bool
+    public var hashValue: Swift.Int {
+      get
+    }
+    public func hash(into hasher: inout Swift.Hasher)
+  }
+  public enum DefaultComparator {
+    public static let descending: (IterableSDK.IterableInAppMessage, IterableSDK.IterableInAppMessage) -> Swift.Bool
+    public static let ascending: (IterableSDK.IterableInAppMessage, IterableSDK.IterableInAppMessage) -> Swift.Bool
+  }
+  public enum DefaultDateMapper {
+    public static var localizedShortDateShortTime: (IterableSDK.IterableInAppMessage) -> Swift.String?
+    public static var localizedMediumDateShortTime: (IterableSDK.IterableInAppMessage) -> Swift.String?
+  }
+  @objc @IBInspectable public var cellNibName: Swift.String?
+  @objc @IBInspectable public var isPopup: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  public var popupModalPresentationStyle: UIKit.UIModalPresentationStyle?
+  public var viewDelegate: IterableSDK.IterableInboxViewControllerViewDelegate? {
+    get
+    set
+  }
+  @objc @IBInspectable public var viewDelegateClassName: Swift.String? {
+    @objc get
+    @objc set
+  }
+  public var insertionAnimation: UIKit.UITableView.RowAnimation
+  public var deletionAnimation: UIKit.UITableView.RowAnimation
+  @objc override dynamic public init(style: UIKit.UITableView.Style)
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @objc override dynamic open func viewDidLoad()
+  @objc override dynamic open func viewWillAppear(_ animated: Swift.Bool)
+  @objc override dynamic open func viewWillDisappear(_ animated: Swift.Bool)
+  @objc override dynamic open func tableView(_: UIKit.UITableView, numberOfRowsInSection section: Swift.Int) -> Swift.Int
+  @objc override dynamic open func tableView(_ tableView: UIKit.UITableView, cellForRowAt indexPath: Foundation.IndexPath) -> UIKit.UITableViewCell
+  @objc override dynamic open func numberOfSections(in _: UIKit.UITableView) -> Swift.Int
+  @objc override dynamic open func tableView(_: UIKit.UITableView, canEditRowAt _: Foundation.IndexPath) -> Swift.Bool
+  @objc override dynamic open func tableView(_: UIKit.UITableView, commit editingStyle: UIKit.UITableViewCell.EditingStyle, forRowAt indexPath: Foundation.IndexPath)
+  @objc override dynamic open func tableView(_ tableView: UIKit.UITableView, didSelectRowAt indexPath: Foundation.IndexPath)
+  @objc override dynamic open func scrollViewDidScroll(_: UIKit.UIScrollView)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class IterableInboxCell : UIKit.UITableViewCell {
+  @objc @IBOutlet open var unreadCircleView: UIKit.UIView?
+  @objc @IBOutlet open var titleLbl: UIKit.UILabel?
+  @objc @IBOutlet open var subtitleLbl: UIKit.UILabel?
+  @objc @IBOutlet open var createdAtLbl: UIKit.UILabel?
+  @objc @IBOutlet open var iconContainerView: UIKit.UIView?
+  @objc @IBOutlet open var iconImageView: UIKit.UIImageView?
+  @objc override dynamic open func setHighlighted(_ highlighted: Swift.Bool, animated: Swift.Bool)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc override dynamic public init(style: UIKit.UITableViewCell.CellStyle, reuseIdentifier: Swift.String?)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class IterableAppIntegration : ObjectiveC.NSObject {
+  @objc public static func application(_ application: UIKit.UIApplication, didReceiveRemoteNotification userInfo: [Swift.AnyHashable : Any], fetchCompletionHandler completionHandler: ((UIKit.UIBackgroundFetchResult) -> Swift.Void)?)
+  @available(iOS 10.0, *)
+  @objc(userNotificationCenter:didReceiveNotificationResponse:withCompletionHandler:) public static func userNotificationCenter(_ center: UserNotifications.UNUserNotificationCenter?, didReceive response: UserNotifications.UNNotificationResponse, withCompletionHandler completionHandler: (() -> Swift.Void)?)
+  @objc deinit
+}
+@objc public class IterableAttributionInfo : ObjectiveC.NSObject, Swift.Codable {
+  @objc public var campaignId: Foundation.NSNumber
+  @objc public var templateId: Foundation.NSNumber
+  @objc public var messageId: Swift.String
+  @objc public init(campaignId: Foundation.NSNumber, templateId: Foundation.NSNumber, messageId: Swift.String)
+  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc public enum InAppShowResponse : Swift.Int {
+  case show
+  case skip
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public protocol IterableInAppManagerProtocol {
+  @objc var isAutoDisplayPaused: Swift.Bool { get set }
+  @objc func getMessages() -> [IterableSDK.IterableInAppMessage]
+  @objc func getInboxMessages() -> [IterableSDK.IterableInAppMessage]
+  @objc func getUnreadInboxMessagesCount() -> Swift.Int
+  @objc(showMessage:) func show(message: IterableSDK.IterableInAppMessage)
+  @objc(showMessage:consume:callbackBlock:) func show(message: IterableSDK.IterableInAppMessage, consume: Swift.Bool, callback: IterableSDK.ITBURLCallback?)
+  @objc(removeMessage:) func remove(message: IterableSDK.IterableInAppMessage)
+  @objc(removeMessage:location:) func remove(message: IterableSDK.IterableInAppMessage, location: IterableSDK.InAppLocation)
+  @objc(removeMessage:location:source:) func remove(message: IterableSDK.IterableInAppMessage, location: IterableSDK.InAppLocation, source: IterableSDK.InAppDeleteSource)
+  @objc(setRead:forMessage:) func set(read: Swift.Bool, forMessage message: IterableSDK.IterableInAppMessage)
+  @objc(getMessageWithId:) func getMessage(withId id: Swift.String) -> IterableSDK.IterableInAppMessage?
+}
+extension NSNotification.Name {
+  public static let iterableInboxChanged: Foundation.Notification.Name
+}
+@objcMembers open class DefaultInAppDelegate : IterableSDK.IterableInAppDelegate {
+  @objc public init()
+  @objc open func onNew(message _: IterableSDK.IterableInAppMessage) -> IterableSDK.InAppShowResponse
+  @objc deinit
+}
+@objc public enum IterableInAppContentType : Swift.Int, Swift.Codable {
+  case html
+  case alert
+  case banner
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public protocol IterableInAppContent {
+  @objc var type: IterableSDK.IterableInAppContentType { get }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers final public class IterableHtmlInAppContent : ObjectiveC.NSObject, IterableSDK.IterableInAppContent {
+  @objc final public let type: IterableSDK.IterableInAppContentType
+  @objc final public let edgeInsets: UIKit.UIEdgeInsets
+  @objc final public let html: Swift.String
+  @objc final public let shouldAnimate: Swift.Bool
+  @objc final public let backgroundColor: UIKit.UIColor?
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers final public class IterableInboxMetadata : ObjectiveC.NSObject {
+  @objc final public let title: Swift.String?
+  @objc final public let subtitle: Swift.String?
+  @objc final public let icon: Swift.String?
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc public enum IterableInAppTriggerType : Swift.Int, Swift.Codable {
+  case immediate
+  case event
+  case never
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers final public class IterableInAppTrigger : ObjectiveC.NSObject {
+  @objc final public let type: IterableSDK.IterableInAppTriggerType
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers final public class IterableInAppMessage : ObjectiveC.NSObject {
+  @objc final public let messageId: Swift.String
+  @objc final public let campaignId: Foundation.NSNumber?
+  @objc final public let trigger: IterableSDK.IterableInAppTrigger
+  @objc final public let createdAt: Foundation.Date?
+  @objc final public let expiresAt: Foundation.Date?
+  @objc final public let content: IterableSDK.IterableInAppContent
+  @objc final public let saveToInbox: Swift.Bool
+  @objc final public let inboxMetadata: IterableSDK.IterableInboxMetadata?
+  @objc final public let customPayload: [Swift.AnyHashable : Any]?
+  @objc final public var read: Swift.Bool
+  @objc final public var silentInbox: Swift.Bool {
+    @objc get
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class IterableAction : ObjectiveC.NSObject {
+  @objc public static let actionTypeOpenUrl: Swift.String
+  @objc public var type: Swift.String
+  @objc public var data: Swift.String?
+  @objc public var userInput: Swift.String?
+  @objc public func isOpenUrl() -> Swift.Bool
+  @objc(actionFromDictionary:) public static func action(fromDictionary dictionary: [Swift.AnyHashable : Any]) -> IterableSDK.IterableAction?
+  @objc(actionOpenUrl:) public static func actionOpenUrl(fromUrlString: Swift.String) -> IterableSDK.IterableAction?
+  @objc deinit
+  @objc override dynamic public init()
+}
+public struct OrderedDictionary<K, V> where K : Swift.Hashable {
+  public var keys: [K]
+  public var count: Swift.Int {
+    get
+  }
+  public var values: [V] {
+    get
+  }
+  public subscript(key: K) -> V? {
+    get
+    set(newValue)
+  }
+  @discardableResult
+  public mutating func updateValue(_ value: V?, forKey key: K) -> V?
+  @discardableResult
+  public mutating func removeValue(forKey key: K) -> V?
+  public mutating func reset()
+}
+extension OrderedDictionary : Swift.Sequence {
+  public func makeIterator() -> Swift.AnyIterator<(key: K, value: V)>
+  public typealias Element = (key: K, value: V)
+  public typealias Iterator = Swift.AnyIterator<(key: K, value: V)>
+}
+extension OrderedDictionary : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension OrderedDictionary : Swift.ExpressibleByDictionaryLiteral {
+  public init(dictionaryLiteral elements: (K, V)...)
+  public typealias Key = K
+  public typealias Value = V
+}
+@objc public class DefaultLogDelegate : ObjectiveC.NSObject, IterableSDK.IterableLogDelegate {
+  public init(minLogLevel: IterableSDK.LogLevel = .info)
+  @objc public func log(level: IterableSDK.LogLevel = .info, message: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@_inheritsConvenienceInitializers @objc public class AllLogDelegate : ObjectiveC.NSObject, IterableSDK.IterableLogDelegate {
+  @objc public func log(level: IterableSDK.LogLevel = .info, message: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@_inheritsConvenienceInitializers @objc public class NoneLogDelegate : ObjectiveC.NSObject, IterableSDK.IterableLogDelegate {
+  @objc public func log(level _: IterableSDK.LogLevel = .info, message _: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public func ITBError(_ message: Swift.String? = nil, file: Swift.String = #file, method: Swift.String = #function, line: Swift.Int = #line)
+public func ITBInfo(_ message: Swift.String? = nil, file: Swift.String = #file, method: Swift.String = #function, line: Swift.Int = #line)
+public func ITBDebug(_ message: Swift.String? = nil, file: Swift.String = #file, method: Swift.String = #function, line: Swift.Int = #line)
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers final public class IterableAPI : ObjectiveC.NSObject {
+  @objc public static let sdkVersion: Swift.String
+  @objc public static var email: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc public static var userId: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc public static var lastPushPayload: [Swift.AnyHashable : Any]? {
+    @objc get
+  }
+  @objc public static var attributionInfo: IterableSDK.IterableAttributionInfo? {
+    @objc get
+    @objc set
+  }
+  @objc public static func initialize(apiKey: Swift.String)
+  @objc public static func initialize(apiKey: Swift.String, config: IterableSDK.IterableConfig)
+  @objc public static func initialize(apiKey: Swift.String, launchOptions: [UIKit.UIApplication.LaunchOptionsKey : Any]?)
+  @objc public static func initialize(apiKey: Swift.String, launchOptions: [UIKit.UIApplication.LaunchOptionsKey : Any]?, config: IterableSDK.IterableConfig = IterableConfig())
+  @objc public static func initialize2(apiKey: Swift.String, launchOptions: [UIKit.UIApplication.LaunchOptionsKey : Any]?, config: IterableSDK.IterableConfig = IterableConfig(), apiEndPointOverride: Swift.String? = nil, linksEndPointOverride: Swift.String? = nil, callback: ((Swift.Bool) -> Swift.Void)? = nil)
+  @discardableResult
+  @objc(handleUniversalLink:) public static func handle(universalLink url: Foundation.URL) -> Swift.Bool
+  @objc(setDeviceAttribute:value:) public static func setDeviceAttribute(name: Swift.String, value: Swift.String)
+  @objc(removeDeviceAttribute:) public static func removeDeviceAttribute(name: Swift.String)
+  @objc public static func logoutUser()
+  @objc public static var inAppManager: IterableSDK.IterableInAppManagerProtocol {
+    @objc get
+  }
+  @objc(registerToken:) public static func register(token: Foundation.Data)
+  @objc(registerToken:onSuccess:OnFailure:) public static func register(token: Foundation.Data, onSuccess: IterableSDK.OnSuccessHandler? = nil, onFailure: IterableSDK.OnFailureHandler? = nil)
+  @objc public static func disableDeviceForCurrentUser()
+  @objc public static func disableDeviceForAllUsers()
+  @objc public static func disableDeviceForCurrentUser(withOnSuccess onSuccess: IterableSDK.OnSuccessHandler?, onFailure: IterableSDK.OnFailureHandler?)
+  @objc public static func disableDeviceForAllUsers(withOnSuccess onSuccess: IterableSDK.OnSuccessHandler?, onFailure: IterableSDK.OnFailureHandler?)
+  @objc(updateUser:mergeNestedObjects:onSuccess:onFailure:) public static func updateUser(_ dataFields: [Swift.AnyHashable : Any], mergeNestedObjects: Swift.Bool, onSuccess: IterableSDK.OnSuccessHandler? = nil, onFailure: IterableSDK.OnFailureHandler? = nil)
+  @objc(updateEmail:onSuccess:onFailure:) public static func updateEmail(_ newEmail: Swift.String, onSuccess: IterableSDK.OnSuccessHandler?, onFailure: IterableSDK.OnFailureHandler?)
+  @objc(updateEmail:withToken:onSuccess:onFailure:) public static func updateEmail(_ newEmail: Swift.String, withToken token: Swift.String, onSuccess: IterableSDK.OnSuccessHandler?, onFailure: IterableSDK.OnFailureHandler?)
+  @objc(trackPurchase:items:) public static func track(purchase withTotal: Foundation.NSNumber, items: [IterableSDK.CommerceItem])
+  @objc(trackPurchase:items:dataFields:) public static func track(purchase withTotal: Foundation.NSNumber, items: [IterableSDK.CommerceItem], dataFields: [Swift.AnyHashable : Any]?)
+  @objc(trackPurchase:items:dataFields:onSuccess:onFailure:) public static func track(purchase withTotal: Foundation.NSNumber, items: [IterableSDK.CommerceItem], dataFields: [Swift.AnyHashable : Any]?, onSuccess: IterableSDK.OnSuccessHandler?, onFailure: IterableSDK.OnFailureHandler?)
+  @objc(trackPushOpen:) public static func track(pushOpen userInfo: [Swift.AnyHashable : Any])
+  @objc(trackPushOpen:dataFields:) public static func track(pushOpen userInfo: [Swift.AnyHashable : Any], dataFields: [Swift.AnyHashable : Any]?)
+  @objc(trackPushOpen:dataFields:onSuccess:onFailure:) public static func track(pushOpen userInfo: [Swift.AnyHashable : Any], dataFields: [Swift.AnyHashable : Any]?, onSuccess: IterableSDK.OnSuccessHandler?, onFailure: IterableSDK.OnFailureHandler?)
+  @objc(trackPushOpen:templateId:messageId:appAlreadyRunning:dataFields:) public static func track(pushOpen campaignId: Foundation.NSNumber, templateId: Foundation.NSNumber?, messageId: Swift.String, appAlreadyRunning: Swift.Bool, dataFields: [Swift.AnyHashable : Any]?)
+  @objc(trackPushOpen:templateId:messageId:appAlreadyRunning:dataFields:onSuccess:onFailure:) public static func track(pushOpen campaignId: Foundation.NSNumber, templateId: Foundation.NSNumber?, messageId: Swift.String, appAlreadyRunning: Swift.Bool, dataFields: [Swift.AnyHashable : Any]?, onSuccess: IterableSDK.OnSuccessHandler?, onFailure: IterableSDK.OnFailureHandler?)
+  @objc(track:) public static func track(event eventName: Swift.String)
+  @objc(track:dataFields:) public static func track(event eventName: Swift.String, dataFields: [Swift.AnyHashable : Any]?)
+  @objc(track:dataFields:onSuccess:onFailure:) public static func track(event eventName: Swift.String, dataFields: [Swift.AnyHashable : Any]?, onSuccess: IterableSDK.OnSuccessHandler?, onFailure: IterableSDK.OnFailureHandler?)
+  @objc(updateSubscriptions:unsubscribedChannelIds:unsubscribedMessageTypeIds:subscribedMessageTypeIds:campaignId:templateId:) public static func updateSubscriptions(_ emailListIds: [Foundation.NSNumber]?, unsubscribedChannelIds: [Foundation.NSNumber]?, unsubscribedMessageTypeIds: [Foundation.NSNumber]?, subscribedMessageTypeIds: [Foundation.NSNumber]?, campaignId: Foundation.NSNumber?, templateId: Foundation.NSNumber?)
+  @objc(trackInAppOpen:location:) public static func track(inAppOpen message: IterableSDK.IterableInAppMessage, location: IterableSDK.InAppLocation = .inApp)
+  @objc(trackInAppClick:location:clickedUrl:) public static func track(inAppClick message: IterableSDK.IterableInAppMessage, location: IterableSDK.InAppLocation = .inApp, clickedUrl: Swift.String)
+  @objc(trackInAppClose:clickedUrl:) public static func track(inAppClose message: IterableSDK.IterableInAppMessage, clickedUrl: Swift.String?)
+  @objc(trackInAppClose:location:clickedUrl:) public static func track(inAppClose message: IterableSDK.IterableInAppMessage, location: IterableSDK.InAppLocation, clickedUrl: Swift.String?)
+  @objc(trackInAppClose:location:source:clickedUrl:) public static func track(inAppClose message: IterableSDK.IterableInAppMessage, location: IterableSDK.InAppLocation, source: IterableSDK.InAppCloseSource, clickedUrl: Swift.String?)
+  @objc(inAppConsume:location:) public static func inAppConsume(message: IterableSDK.IterableInAppMessage, location: IterableSDK.InAppLocation = .inApp)
+  @objc(inAppConsume:location:source:) public static func inAppConsume(message: IterableSDK.IterableInAppMessage, location: IterableSDK.InAppLocation = .inApp, source: IterableSDK.InAppDeleteSource)
+  @objc deinit
+}
+extension IterableAPI {
+  @objc @available(*, deprecated, message: "Please use UIAlertController to show system notifications.")
+  public static func showSystemNotification(withTitle title: Swift.String, body: Swift.String, button: Swift.String?, callbackBlock: IterableSDK.ITEActionBlock?)
+  @objc @available(*, deprecated, message: "Please use UIAlertController to show system notifications.")
+  public static func showSystemNotification(withTitle title: Swift.String, body: Swift.String, buttonLeft: Swift.String?, buttonRight: Swift.String?, callbackBlock: IterableSDK.ITEActionBlock?)
+  @available(*, deprecated, message: "Please use IterableAPI.handle(universalLink:) instead.")
+  @objc(getAndTrackDeeplink:callbackBlock:) public static func getAndTrack(deeplink webpageURL: Foundation.URL, callbackBlock: @escaping IterableSDK.ITEActionBlock)
+  @available(*, deprecated, message: "Use IterableAPI.track(inAppOpen:location:) method instead.")
+  @objc(trackInAppOpen:) public static func track(inAppOpen messageId: Swift.String)
+  @available(*, deprecated, message: "Use IterableAPI.track(inAppClick:location:clickedUrl) instead.")
+  @objc(trackInAppClick:buttonURL:) public static func track(inAppClick messageId: Swift.String, buttonURL: Swift.String)
+  @available(*, deprecated, message: "Use IterableAPI.inAppConsume(message:location:source:) instead.")
+  @objc(inAppConsume:) public static func inAppConsume(messageId: Swift.String)
+}
+@objc @objcMembers public class IterableActionContext : ObjectiveC.NSObject {
+  @objc final public let action: IterableSDK.IterableAction
+  @objc final public let source: IterableSDK.IterableActionSource
+  @objc public init(action: IterableSDK.IterableAction, source: IterableSDK.IterableActionSource)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public protocol NotificationResponseProtocol {
+  var userInfo: [Swift.AnyHashable : Any] { get }
+  var actionIdentifier: Swift.String { get }
+  var userText: Swift.String? { get }
+}
+@objc public protocol ApplicationStateProviderProtocol : AnyObject {
+  @objc var applicationState: UIKit.UIApplication.State { get }
+}
+extension UIApplication : IterableSDK.ApplicationStateProviderProtocol {
+}
+public enum Const {
+  public static let apiPath: Swift.String
+  public enum UserDefaults {
+    public static let emailKey: Swift.String
+  }
+}
+public protocol JsonKeyValueRepresentable {
+  var key: IterableSDK.JsonKeyRepresentable { get }
+  var value: IterableSDK.JsonValueRepresentable { get }
+}
+public struct JsonKeyValue : IterableSDK.JsonKeyValueRepresentable {
+  public let key: IterableSDK.JsonKeyRepresentable
+  public let value: IterableSDK.JsonValueRepresentable
+}
+public protocol JsonKeyRepresentable {
+  var jsonKey: Swift.String { get }
+}
+public enum JsonKey : Swift.String, IterableSDK.JsonKeyRepresentable {
+  case email
+  case userId
+  case currentEmail
+  case currentUserId
+  case newEmail
+  case emailListIds
+  case unsubscribedChannelIds
+  case unsubscribedMessageTypeIds
+  case subscribedMessageTypeIds
+  case preferUserId
+  case mergeNestedObjects
+  case inboxMetadata
+  case inboxTitle
+  case inboxSubtitle
+  case inboxIcon
+  case inboxExpiresAt
+  case inboxCreatedAt
+  case inAppMessageContext
+  case campaignId
+  case templateId
+  case messageId
+  case inboxSessionId
+  case saveToInbox
+  case silentInbox
+  case inAppLocation
+  case clickedUrl
+  case read
+  case inboxSessionStart
+  case inboxSessionEnd
+  case startTotalMessageCount
+  case startUnreadMessageCount
+  case endTotalMessageCount
+  case endUnreadMessageCount
+  case impressions
+  case closeAction
+  case deleteAction
+  case url
+  case device
+  case token
+  case dataFields
+  case deviceInfo
+  case identifierForVendor
+  case deviceId
+  case localizedModel
+  case model
+  case userInterfaceIdiom
+  case systemName
+  case systemVersion
+  case platform
+  case appPackageName
+  case appVersion
+  case appBuild
+  case applicationName
+  case eventName
+  case actionIdentifier
+  case userText
+  case appAlreadyRunning
+  case html
+  case iterableSdkVersion
+  case notificationsEnabled
+  case contentType
+  public enum ActionButton {
+  }
+  public enum Commerce {
+  }
+  public enum Device {
+  }
+  public enum Header {
+  }
+  public enum Body {
+  }
+  public enum InApp {
+  }
+  public enum Payload {
+  }
+  public enum Response {
+  }
+  public enum JWT {
+  }
+  public var jsonKey: Swift.String {
+    get
+  }
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public protocol JsonValueRepresentable {
+  var jsonValue: Any { get }
+}
+public enum JsonValue : Swift.String, IterableSDK.JsonValueRepresentable {
+  case applicationJson
+  case apnsSandbox
+  case apnsProduction
+  case iOS
+  case bearer
+  public enum ActionIdentifier {
+  }
+  public enum DeviceIdiom {
+  }
+  public enum Code {
+  }
+  public var jsonStringValue: Swift.String {
+    get
+  }
+  public var jsonValue: Any {
+    get
+  }
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc public enum InAppLocation : Swift.Int, IterableSDK.JsonValueRepresentable {
+  case inApp
+  case inbox
+  public var jsonValue: Any {
+    get
+  }
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum InAppCloseSource : Swift.Int, IterableSDK.JsonValueRepresentable {
+  case back
+  case link
+  public var jsonValue: Any {
+    get
+  }
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum InAppDeleteSource : Swift.Int, IterableSDK.JsonValueRepresentable {
+  case inboxSwipe
+  case deleteButton
+  public var jsonValue: Any {
+    get
+  }
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension Int : IterableSDK.JsonValueRepresentable {
+  public var jsonValue: Any {
+    get
+  }
+}
+extension String : IterableSDK.JsonValueRepresentable {
+  public var jsonValue: Any {
+    get
+  }
+}
+extension Bool : IterableSDK.JsonValueRepresentable {
+  public var jsonValue: Any {
+    get
+  }
+}
+extension Dictionary : IterableSDK.JsonValueRepresentable {
+  public var jsonValue: Any {
+    get
+  }
+}
+extension Array : IterableSDK.JsonValueRepresentable where Element : IterableSDK.JsonValueRepresentable {
+  public var jsonValue: Any {
+    get
+  }
+}
+@objc public enum IterableActionSource : Swift.Int {
+  case push
+  case universalLink
+  case inApp
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc(IterableLogLevel) public enum LogLevel : Swift.Int {
+  case debug = 1
+  case info
+  case error
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+}
+@objc public enum PushServicePlatform : Swift.Int {
+  case sandbox
+  case production
+  case auto
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public enum IterableCustomActionName : Swift.String, Swift.CaseIterable {
+  case dismiss
+  case delete
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+  public typealias AllCases = [IterableSDK.IterableCustomActionName]
+  public static var allCases: [IterableSDK.IterableCustomActionName] {
+    get
+  }
+}
+public typealias ITEActionBlock = (Swift.String?) -> Swift.Void
+public typealias ITBURLCallback = (Foundation.URL?) -> Swift.Void
+public typealias OnSuccessHandler = ([Swift.AnyHashable : Any]?) -> Swift.Void
+public typealias OnFailureHandler = (Swift.String?, Foundation.Data?) -> Swift.Void
+public typealias UrlHandler = (Foundation.URL) -> Swift.Bool
+public typealias CustomActionHandler = (Swift.String) -> Swift.Bool
+public typealias AuthTokenRetrievalHandler = (Swift.String?) -> Swift.Void
+public struct IterablePushNotificationMetadata {
+  public let campaignId: Foundation.NSNumber
+  public let templateId: Foundation.NSNumber?
+  public let messageId: Swift.String
+  public let isGhostPush: Swift.Bool
+  public static func metadata(fromLaunchOptions userInfo: [Swift.AnyHashable : Any]) -> IterableSDK.IterablePushNotificationMetadata?
+  public func isRealCampaignNotification() -> Swift.Bool
+  public func isProof() -> Swift.Bool
+  public func isTestPush() -> Swift.Bool
+}
+@objc public protocol IterableURLDelegate : AnyObject {
+  @objc(handleIterableURL:context:) func handle(iterableURL url: Foundation.URL, inContext context: IterableSDK.IterableActionContext) -> Swift.Bool
+}
+@objc public protocol IterableCustomActionDelegate : AnyObject {
+  @objc(handleIterableCustomAction:context:) func handle(iterableCustomAction action: IterableSDK.IterableAction, inContext context: IterableSDK.IterableActionContext) -> Swift.Bool
+}
+@objc public protocol IterableInAppDelegate : AnyObject {
+  @objc(onNewMessage:) func onNew(message: IterableSDK.IterableInAppMessage) -> IterableSDK.InAppShowResponse
+}
+@objc public protocol IterableLogDelegate : AnyObject {
+  @objc(log:message:) func log(level: IterableSDK.LogLevel, message: Swift.String)
+}
+@objc public protocol IterableAuthDelegate : AnyObject {
+  @objc func onAuthTokenRequested(completion: @escaping IterableSDK.AuthTokenRetrievalHandler)
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class IterableConfig : ObjectiveC.NSObject {
+  @objc public var pushIntegrationName: Swift.String?
+  @objc public var sandboxPushIntegrationName: Swift.String?
+  @objc public var pushPlatform: IterableSDK.PushServicePlatform
+  @objc weak public var urlDelegate: IterableSDK.IterableURLDelegate?
+  @objc weak public var customActionDelegate: IterableSDK.IterableCustomActionDelegate?
+  @objc weak public var authDelegate: IterableSDK.IterableAuthDelegate?
+  @objc public var autoPushRegistration: Swift.Bool
+  @objc public var checkForDeferredDeeplink: Swift.Bool
+  @objc public var logDelegate: IterableSDK.IterableLogDelegate
+  @objc public var inAppDelegate: IterableSDK.IterableInAppDelegate
+  @objc public var inAppDisplayInterval: Swift.Double
+  @objc public var expiringAuthTokenRefreshPeriod: Swift.Double
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension IterableInAppContentType : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension IterableInAppTriggerType : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension IterableInAppTrigger : Swift.Codable {
+  convenience public init(from decoder: Swift.Decoder)
+  final public func encode(to encoder: Swift.Encoder) throws
+}
+extension IterableHtmlInAppContent : Swift.Codable {
+  convenience public init(from decoder: Swift.Decoder)
+  final public func encode(to encoder: Swift.Encoder)
+}
+extension IterableInboxMetadata : Swift.Codable {
+  convenience public init(from decoder: Swift.Decoder)
+  final public func encode(to encoder: Swift.Encoder)
+}
+extension IterableInAppMessage : Swift.Codable {
+  convenience public init(from decoder: Swift.Decoder)
+  final public func encode(to encoder: Swift.Encoder)
+}
+@objc @_hasMissingDesignatedInitializers @IBDesignable open class IterableInboxNavigationViewController : UIKit.UINavigationController {
+  @objc @IBInspectable public var cellNibName: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable public var navTitle: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable public var isPopup: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  public var viewDelegate: IterableSDK.IterableInboxViewControllerViewDelegate? {
+    get
+    set
+  }
+  @objc @IBInspectable public var viewDelegateClassName: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable public var largeTitles: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc @IBInspectable public var groupSections: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc dynamic public init()
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc override dynamic open func viewDidLoad()
+  @objc override dynamic open func viewWillAppear(_ animated: Swift.Bool)
+  @objc override dynamic open func viewWillDisappear(_ animated: Swift.Bool)
+  @objc deinit
+  @available(iOS 5.0, *)
+  @objc override dynamic public init(navigationBarClass: Swift.AnyClass?, toolbarClass: Swift.AnyClass?)
+}
+@objc public protocol IterableInternalAuthManagerProtocol {
+  @objc func getAuthToken() -> Swift.String?
+  @objc func resetFailedAuthCount()
+  @objc func requestNewAuthToken(hasFailedPriorAuth: Swift.Bool, onSuccess: ((Swift.String?) -> Swift.Void)?)
+  @objc func logoutUser()
+}
+@objc @objcMembers public class CommerceItem : ObjectiveC.NSObject {
+  @objc public var id: Swift.String
+  @objc public var name: Swift.String
+  @objc public var price: Foundation.NSNumber
+  @objc public var quantity: Swift.UInt
+  @objc public init(id: Swift.String, name: Swift.String, price: Foundation.NSNumber, quantity: Swift.UInt)
+  @objc public func toDictionary() -> [Swift.AnyHashable : Any]
+  @objc deinit
+  @objc override dynamic public init()
+}
+@_inheritsConvenienceInitializers @objc(IterableTaskManagedObject) public class IterableTaskManagedObject : CoreData.NSManagedObject {
+  @objc deinit
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+}
+extension IterableTaskManagedObject {
+  @nonobjc public class func fetchRequest() -> CoreData.NSFetchRequest<IterableSDK.IterableTaskManagedObject>
+  @objc @NSManaged dynamic public var attempts: Swift.Int64 {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var createdAt: Foundation.Date? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var modifiedAt: Foundation.Date? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var data: Foundation.Data? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var id: Swift.String {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var name: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var lastAttemptedAt: Foundation.Date? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var processing: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var type: Swift.String {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var scheduledAt: Foundation.Date {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var failed: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var blocking: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var requestedAt: Foundation.Date {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var taskFailureData: Foundation.Data? {
+    @objc get
+    @objc set
+  }
+  @objc @NSManaged dynamic public var version: Swift.Int64 {
+    @objc get
+    @objc set
+  }
+}
+extension IterableSDK.IterableInboxViewController.InboxMode : Swift.Equatable {}
+extension IterableSDK.IterableInboxViewController.InboxMode : Swift.Hashable {}
+extension IterableSDK.IterableInAppTriggerType : Swift.Equatable {}
+extension IterableSDK.IterableInAppTriggerType : Swift.Hashable {}
+extension IterableSDK.IterableInAppTriggerType : Swift.RawRepresentable {}
+extension IterableSDK.InAppShowResponse : Swift.Equatable {}
+extension IterableSDK.InAppShowResponse : Swift.Hashable {}
+extension IterableSDK.InAppShowResponse : Swift.RawRepresentable {}
+extension IterableSDK.IterableInAppContentType : Swift.Equatable {}
+extension IterableSDK.IterableInAppContentType : Swift.Hashable {}
+extension IterableSDK.IterableInAppContentType : Swift.RawRepresentable {}
+extension IterableSDK.JsonKey : Swift.Equatable {}
+extension IterableSDK.JsonKey : Swift.Hashable {}
+extension IterableSDK.JsonKey : Swift.RawRepresentable {}
+extension IterableSDK.JsonValue : Swift.Equatable {}
+extension IterableSDK.JsonValue : Swift.Hashable {}
+extension IterableSDK.JsonValue : Swift.RawRepresentable {}
+extension IterableSDK.InAppLocation : Swift.Equatable {}
+extension IterableSDK.InAppLocation : Swift.Hashable {}
+extension IterableSDK.InAppLocation : Swift.RawRepresentable {}
+extension IterableSDK.InAppCloseSource : Swift.Equatable {}
+extension IterableSDK.InAppCloseSource : Swift.Hashable {}
+extension IterableSDK.InAppCloseSource : Swift.RawRepresentable {}
+extension IterableSDK.InAppDeleteSource : Swift.Equatable {}
+extension IterableSDK.InAppDeleteSource : Swift.Hashable {}
+extension IterableSDK.InAppDeleteSource : Swift.RawRepresentable {}
+extension IterableSDK.IterableActionSource : Swift.Equatable {}
+extension IterableSDK.IterableActionSource : Swift.Hashable {}
+extension IterableSDK.IterableActionSource : Swift.RawRepresentable {}
+extension IterableSDK.LogLevel : Swift.Equatable {}
+extension IterableSDK.LogLevel : Swift.Hashable {}
+extension IterableSDK.LogLevel : Swift.RawRepresentable {}
+extension IterableSDK.PushServicePlatform : Swift.Equatable {}
+extension IterableSDK.PushServicePlatform : Swift.Hashable {}
+extension IterableSDK.PushServicePlatform : Swift.RawRepresentable {}
+extension IterableSDK.IterableCustomActionName : Swift.Equatable {}
+extension IterableSDK.IterableCustomActionName : Swift.Hashable {}
+extension IterableSDK.IterableCustomActionName : Swift.RawRepresentable {}

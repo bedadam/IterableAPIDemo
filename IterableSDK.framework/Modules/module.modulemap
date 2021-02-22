@@ -1,0 +1,11 @@
+framework module IterableSDK {
+  umbrella header "IterableSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module IterableSDK.Swift {
+    header "IterableSDK-Swift.h"
+    requires objc
+}

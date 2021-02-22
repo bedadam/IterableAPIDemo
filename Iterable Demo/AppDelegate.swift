@@ -6,14 +6,25 @@
 //
 
 import UIKit
+import IterableSDK
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    //  api key
+    let iterableApiKey = "349dcc9373c74c6699c5d1204a271695"
 
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        // Initialize API
+        let config = IterableConfig()
+        
+        IterableAPI.initialize(apiKey: iterableApiKey,
+                               launchOptions: launchOptions,
+                               config: config)
+        IterableAPI.email = "sridhar.bedadam@gmail.com"
         return true
     }
 

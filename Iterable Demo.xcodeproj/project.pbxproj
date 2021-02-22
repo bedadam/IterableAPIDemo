@@ -15,6 +15,12 @@
 		F0053D8225E3392E003A5858 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F0053D8025E3392E003A5858 /* LaunchScreen.storyboard */; };
 		F0053D8D25E3392F003A5858 /* Iterable_DemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0053D8C25E3392F003A5858 /* Iterable_DemoTests.swift */; };
 		F0053D9825E3392F003A5858 /* Iterable_DemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0053D9725E3392F003A5858 /* Iterable_DemoUITests.swift */; };
+		F0053DAF25E363D8003A5858 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0053DAE25E363D8003A5858 /* NotificationService.swift */; };
+		F0053DB325E363D8003A5858 /* IterableExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F0053DAC25E363D8003A5858 /* IterableExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F0053DBE25E363F5003A5858 /* IterableAppExtensions.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0053DBD25E363F5003A5858 /* IterableAppExtensions.framework */; };
+		F0053DBF25E363F5003A5858 /* IterableAppExtensions.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F0053DBD25E363F5003A5858 /* IterableAppExtensions.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F0053DC225E36416003A5858 /* IterableSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0053DC125E36416003A5858 /* IterableSDK.framework */; };
+		F0053DC325E36416003A5858 /* IterableSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F0053DC125E36416003A5858 /* IterableSDK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,7 +38,50 @@
 			remoteGlobalIDString = F0053D7125E3392D003A5858;
 			remoteInfo = "Iterable Demo";
 		};
+		F0053DB125E363D8003A5858 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F0053D6A25E3392D003A5858 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F0053DAB25E363D8003A5858;
+			remoteInfo = IterableExtension;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F0053DB725E363D9003A5858 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F0053DB325E363D8003A5858 /* IterableExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0053DC025E363F5003A5858 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F0053DBF25E363F5003A5858 /* IterableAppExtensions.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0053DC425E36416003A5858 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F0053DC325E36416003A5858 /* IterableSDK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F0053D7225E3392D003A5858 /* Iterable Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Iterable Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,6 +98,11 @@
 		F0053D9325E3392F003A5858 /* Iterable DemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Iterable DemoUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0053D9725E3392F003A5858 /* Iterable_DemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Iterable_DemoUITests.swift; sourceTree = "<group>"; };
 		F0053D9925E3392F003A5858 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F0053DAC25E363D8003A5858 /* IterableExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = IterableExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0053DAE25E363D8003A5858 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		F0053DB025E363D8003A5858 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F0053DBD25E363F5003A5858 /* IterableAppExtensions.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IterableAppExtensions.framework; sourceTree = "<group>"; };
+		F0053DC125E36416003A5858 /* IterableSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IterableSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0053DC225E36416003A5858 /* IterableSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +128,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F0053DA925E363D8003A5858 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F0053DBE25E363F5003A5858 /* IterableAppExtensions.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -82,7 +145,9 @@
 				F0053D7425E3392D003A5858 /* Iterable Demo */,
 				F0053D8B25E3392F003A5858 /* Iterable DemoTests */,
 				F0053D9625E3392F003A5858 /* Iterable DemoUITests */,
+				F0053DAD25E363D8003A5858 /* IterableExtension */,
 				F0053D7325E3392D003A5858 /* Products */,
+				F0053DBC25E363F4003A5858 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,6 +157,7 @@
 				F0053D7225E3392D003A5858 /* Iterable Demo.app */,
 				F0053D8825E3392F003A5858 /* Iterable DemoTests.xctest */,
 				F0053D9325E3392F003A5858 /* Iterable DemoUITests.xctest */,
+				F0053DAC25E363D8003A5858 /* IterableExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -128,6 +194,24 @@
 			path = "Iterable DemoUITests";
 			sourceTree = "<group>";
 		};
+		F0053DAD25E363D8003A5858 /* IterableExtension */ = {
+			isa = PBXGroup;
+			children = (
+				F0053DAE25E363D8003A5858 /* NotificationService.swift */,
+				F0053DB025E363D8003A5858 /* Info.plist */,
+			);
+			path = IterableExtension;
+			sourceTree = "<group>";
+		};
+		F0053DBC25E363F4003A5858 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F0053DC125E36416003A5858 /* IterableSDK.framework */,
+				F0053DBD25E363F5003A5858 /* IterableAppExtensions.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -138,10 +222,13 @@
 				F0053D6E25E3392D003A5858 /* Sources */,
 				F0053D6F25E3392D003A5858 /* Frameworks */,
 				F0053D7025E3392D003A5858 /* Resources */,
+				F0053DB725E363D9003A5858 /* Embed App Extensions */,
+				F0053DC425E36416003A5858 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F0053DB225E363D8003A5858 /* PBXTargetDependency */,
 			);
 			name = "Iterable Demo";
 			productName = "Iterable Demo";
@@ -184,6 +271,24 @@
 			productReference = F0053D9325E3392F003A5858 /* Iterable DemoUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		F0053DAB25E363D8003A5858 /* IterableExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F0053DB425E363D9003A5858 /* Build configuration list for PBXNativeTarget "IterableExtension" */;
+			buildPhases = (
+				F0053DA825E363D8003A5858 /* Sources */,
+				F0053DA925E363D8003A5858 /* Frameworks */,
+				F0053DAA25E363D8003A5858 /* Resources */,
+				F0053DC025E363F5003A5858 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IterableExtension;
+			productName = IterableExtension;
+			productReference = F0053DAC25E363D8003A5858 /* IterableExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -204,6 +309,9 @@
 						CreatedOnToolsVersion = 12.4;
 						TestTargetID = F0053D7125E3392D003A5858;
 					};
+					F0053DAB25E363D8003A5858 = {
+						CreatedOnToolsVersion = 12.4;
+					};
 				};
 			};
 			buildConfigurationList = F0053D6D25E3392D003A5858 /* Build configuration list for PBXProject "Iterable Demo" */;
@@ -222,6 +330,7 @@
 				F0053D7125E3392D003A5858 /* Iterable Demo */,
 				F0053D8725E3392F003A5858 /* Iterable DemoTests */,
 				F0053D9225E3392F003A5858 /* Iterable DemoUITests */,
+				F0053DAB25E363D8003A5858 /* IterableExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -245,6 +354,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F0053D9125E3392F003A5858 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0053DAA25E363D8003A5858 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -280,6 +396,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F0053DA825E363D8003A5858 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F0053DAF25E363D8003A5858 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -292,6 +416,11 @@
 			isa = PBXTargetDependency;
 			target = F0053D7125E3392D003A5858 /* Iterable Demo */;
 			targetProxy = F0053D9425E3392F003A5858 /* PBXContainerItemProxy */;
+		};
+		F0053DB225E363D8003A5858 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F0053DAB25E363D8003A5858 /* IterableExtension */;
+			targetProxy = F0053DB125E363D8003A5858 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -434,9 +563,14 @@
 		F0053D9D25E3392F003A5858 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Iterable Demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -446,15 +580,22 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VALIDATE_WORKSPACE = YES;
 			};
 			name = Debug;
 		};
 		F0053D9E25E3392F003A5858 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = "Iterable Demo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -464,6 +605,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_WORKSPACE = YES;
 			};
 			name = Release;
 		};
@@ -547,6 +689,53 @@
 			};
 			name = Release;
 		};
+		F0053DB525E363D9003A5858 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = IterableExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "sridhar.Iterable-Demo.IterableExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VALIDATE_WORKSPACE = YES;
+			};
+			name = Debug;
+		};
+		F0053DB625E363D9003A5858 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = IterableExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "sridhar.Iterable-Demo.IterableExtension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_WORKSPACE = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -582,6 +771,15 @@
 			buildConfigurations = (
 				F0053DA325E3392F003A5858 /* Debug */,
 				F0053DA425E3392F003A5858 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F0053DB425E363D9003A5858 /* Build configuration list for PBXNativeTarget "IterableExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F0053DB525E363D9003A5858 /* Debug */,
+				F0053DB625E363D9003A5858 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

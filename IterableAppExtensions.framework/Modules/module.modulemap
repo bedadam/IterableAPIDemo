@@ -1,0 +1,11 @@
+framework module IterableAppExtensions {
+  umbrella header "IterableAppExtensions.h"
+
+  export *
+  module * { export * }
+}
+
+module IterableAppExtensions.Swift {
+    header "IterableAppExtensions-Swift.h"
+    requires objc
+}
